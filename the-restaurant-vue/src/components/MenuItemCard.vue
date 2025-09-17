@@ -28,6 +28,9 @@ const filteredMenuItems: ComputedRef<MenuItem[]> = computed(() => {
 const fetchMenuItems = async () => {
   loading.value = true
   apiResponse.value = await getMenuItems()
+
+  await new Promise(resolve => setTimeout(resolve, 1500))
+
   loading.value = false
 }
 
@@ -35,7 +38,19 @@ fetchMenuItems()
 </script>
 
 <template>
-  <div v-for="menuItem in filteredMenuItems" :key="menuItem.id" class="col-lg-4 col-md-6 mb-4">
+  <div v-if="loading" class="text-center">
+    <p>Loading menu items...</p>
+  </div>
+
+  <div v-else-if="!apiResponse?.isSuccess" class="text-center">
+    <p>Something went wrong</p>
+  </div>
+
+  <div v-else-if="filteredMenuItems.length === 0" class="col-12 text-center">
+    <p>No menu items available</p>
+  </div>
+
+  <div v-else v-for="menuItem in filteredMenuItems" :key="menuItem.id" class="col-lg-4 col-md-6 mb-4">
     <div class="card h-100 shadow-sm">
       <div class="position-relative">
         <img :src="menuItem.image" class="card-img-top" alt="Menu Item" style="height: 250px; object-fit: cover;">

@@ -4,14 +4,11 @@ import type {ApiResponse, MenuItem} from "@/types/types.ts";
 import {getMenuItems} from "@/services/MenuItemService.ts";
 
 const loading = ref(false)
-const apiResponse: Ref<ApiResponse<MenuItem> | null> = ref(null)
+const apiResponse: Ref<ApiResponse<MenuItem[]> | null> = ref(null)
 
 const fetchMenuItems = async () => {
   loading.value = true
   apiResponse.value = await getMenuItems()
-
-  await new Promise(resolve => setTimeout(resolve, 1500))
-
   loading.value = false;
 }
 

@@ -17,7 +17,8 @@
     "axios": "^1.12.2",
     "bootstrap": "^5.3.8",
     "v-calendar": "^3.1.2",
-    "vue": "^3.5.18"
+    "vue": "^3.5.18",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",

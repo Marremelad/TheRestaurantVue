@@ -2,7 +2,7 @@
 import type { ApiResponse, MenuItem } from "@/types/types.ts";
 
 export const getMenuItems = async (): Promise<ApiResponse<MenuItem[]>> => {
-    const response: ApiResponse<MenuItem> = await api.get("menu-items")
+    const response = await api.get("menu-items")
 
     return response.data
 }

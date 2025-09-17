@@ -17,20 +17,17 @@ const props = defineProps({
 const loading = ref(false)
 const apiResponse: Ref<ApiResponse<MenuItem[]> | null> = ref(null)
 
-const filteredMenuItems: ComputedRef<MenuItem[]> = computed(() => {
+const filteredMenuItems: ComputedRef<MenuItem[] | null> = computed(() => {
   if (!apiResponse.value) return []
 
   const menuItems = apiResponse.value.value
-  const filtered = props.popularOnly ? menuItems.filter(v => v.isPopular) : menuItems
-  return props.numberOfItems > 0 ? filtered.slice(0, props.numberOfItems) : filtered
+  const filtered = props.popularOnly ? menuItems!.filter(v => v.isPopular) : menuItems
+  return props.numberOfItems > 0 ? filtered!.slice(0, props.numberOfItems) : filtered
 })
 
 const fetchMenuItems = async () => {
   loading.value = true
   apiResponse.value = await getMenuItems()
-
-  await new Promise(resolve => setTimeout(resolve, 1500))
-
   loading.value = false
 }
 

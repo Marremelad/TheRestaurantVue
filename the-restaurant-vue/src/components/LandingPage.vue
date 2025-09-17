@@ -1,4 +1,5 @@
 ﻿<script setup lang="ts">
+import { RouterLink } from "vue-router";
 import MenuItemCard from "@/components/MenuItemCard.vue";
 </script>
 
@@ -21,7 +22,6 @@ import MenuItemCard from "@/components/MenuItemCard.vue";
           <p class="text-muted">Discover the favorites that keep our guests coming back.</p>
         </div>
 
-        <!-- New row for menu items -->
         <div class="row">
           <MenuItemCard :number-of-items="3" :popular-only="true"/>
         </div>
@@ -30,7 +30,7 @@ import MenuItemCard from "@/components/MenuItemCard.vue";
           <div class="col-12 text-center">
             <h3 class="mb-3">Want to See More?</h3>
             <p class="mb-4">Browse our complete menu with all available dishes and beverages</p>
-            <a href="#" class="btn btn-danger btn-lg">Full Menu</a>
+            <RouterLink to="/menu" class="btn btn-danger btn-lg">Full Menu</RouterLink>
           </div>
         </div>
       </div>

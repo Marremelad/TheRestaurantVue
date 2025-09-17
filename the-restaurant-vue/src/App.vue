@@ -4,6 +4,7 @@ import SelectDate from "@/components/SelectDate.vue";
 import Home from "@/components/Home.vue";
 import MenuItemCard from "@/components/MenuItemCard.vue";
 import Navbar from "@/components/Navbar.vue";
+import Menu from "@/components/Menu.vue";
 </script>
 
 <template>

@@ -45,7 +45,7 @@ fetchMenuItems()
         <h5 class="card-title">{{ menuItem.name }}</h5>
         <p class="card-text text-muted flex-grow-1">{{ menuItem.description }}</p>
         <div class="mt-auto d-flex justify-content-between align-items-center">
-          <span class="h4 text-primary mb-0">{{ menuItem.price }}</span>
+          <span class="h4 text-primary mb-0">${{ menuItem.price.toFixed(2) }}</span>
           <div class="d-flex gap-2">
           </div>
         </div>

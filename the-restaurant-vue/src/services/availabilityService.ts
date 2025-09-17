@@ -1,4 +1,4 @@
-﻿import api from './api'
+﻿import api from "@/services/api.ts";
 import type { ApiResponse, AvailabilityRequest, AvailabilityResponse } from '@/types/types'
 
 export const getAvailableTimeSlots = async (ar: AvailabilityRequest): Promise<ApiResponse<AvailabilityResponse[]>> => {

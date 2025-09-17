@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-
+import MenuItemCard from "@/components/MenuItemCard.vue";
 </script>
 
 <template>
@@ -20,9 +20,7 @@
         <p class="text-muted">Discover the favorites that keep our guests coming back.</p>
       </div>
 
-      <div class="col-12 text-center">
-        <!-- Menu items would be displayed here -->
-      </div>
+      <MenuItemCard :number-of-items="3" :popular-only="true"/>
     </div>
 
     <div class="row bg-white py-5" id="menu">

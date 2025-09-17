@@ -1,0 +1,60 @@
+﻿html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+body, p {
+    font-family: monospace, sans-serif;
+    line-height: 1.6;
+}
+
+a:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+h1, h2, h3, h4, h5, .navbar-brand, .btn {
+    font-family: "Courier New", monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.alert .validation-summary-errors ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Fixed height */
+    line-height: 60px; /* Centers text vertically */
+    white-space: nowrap;
+    background-color: #f8f9fa; /* Optional: add background color */
+    border-top: 1px solid #e5e5e5;
+}

@@ -6,8 +6,7 @@ import MenuItemCard from "@/components/MenuItemCard.vue";
 </script>
 
 <template>
-  <MenuItemCard />
-<!--  <Home />-->
+  <Home />
 <!--  <SelectPartySize />-->
 <!--  <SelectDate />-->
 </template>

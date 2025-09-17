@@ -1,22 +1,52 @@
 ﻿<script setup lang="ts">
+import {ref, defineProps, computed, type ComputedRef, type Ref} from "vue";
+import type {ApiResponse, MenuItem} from "@/types/types.ts";
+import { getMenuItems } from "@/services/MenuItemService.ts"
 
+const props = defineProps({
+  numberOfItems: {
+    type: Number,
+    default: 0
+  },
+  popularOnly: {
+    type: Boolean,
+    default: false
+  }
+})
+
+const loading = ref(false)
+const apiResponse: Ref<ApiResponse<MenuItem[]> | null> = ref(null)
+
+const filteredMenuItems: ComputedRef<MenuItem[]> = computed(() => {
+  if (!apiResponse.value) return []
+
+  const menuItems = apiResponse.value.value
+  const filtered = props.popularOnly ? menuItems.filter(v => v.isPopular) : menuItems
+  return props.numberOfItems > 0 ? filtered.slice(0, props.numberOfItems) : filtered
+})
+
+const fetchMenuItems = async () => {
+  loading.value = true
+  apiResponse.value = await getMenuItems()
+  loading.value = false
+}
+
+fetchMenuItems()
 </script>
 
 <template>
-  <div class="col-lg-4 col-md-6 mb-4">
+  <div v-for="menuItem in filteredMenuItems" :key="menuItem.id" class="col-lg-4 col-md-6 mb-4">
     <div class="card h-100 shadow-sm">
       <div class="position-relative">
-        <img src="#" class="card-img-top" alt="Menu Item" style="height: 250px; object-fit: cover;">
-        <span class="badge bg-danger position-absolute top-0 end-0 m-3">Popular</span>
+        <img :src="menuItem.image" class="card-img-top" alt="Menu Item" style="height: 250px; object-fit: cover;">
+        <span v-if="menuItem.isPopular" class="badge bg-danger position-absolute top-0 end-0 m-3">Popular</span>
       </div>
       <div class="card-body d-flex flex-column">
-        <h5 class="card-title">Menu Item Name</h5>
-        <p class="card-text text-muted flex-grow-1">Menu item description goes here</p>
+        <h5 class="card-title">{{ menuItem.name }}</h5>
+        <p class="card-text text-muted flex-grow-1">{{ menuItem.description }}</p>
         <div class="mt-auto d-flex justify-content-between align-items-center">
-          <span class="h4 text-primary mb-0">$0.00</span>
+          <span class="h4 text-primary mb-0">{{ menuItem.price }}</span>
           <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-danger">Delete</button>
-            <a href="#" class="btn btn-outline-success">Edit</a>
           </div>
         </div>
       </div>

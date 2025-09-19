@@ -1,16 +1,33 @@
 ﻿<script setup lang="ts">
+import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import MenuItemCard from "@/components/MenuItemCard.vue";
+import ReservationModal from "@/components/ReservationModal.vue";
+
+const showReservation = ref(false)
+
+const startReservation = () => {
+  showReservation.value = true
+}
+
+const closeReservation = () => {
+  showReservation.value = false
+}
 </script>
 
 <template>
+  <ReservationModal
+      :show="showReservation"
+      @close="closeReservation"
+  />
+
   <div class="container">
     <div class="row bg-white text-black py-5">
       <div class="col-12 text-center">
         <h1 class="display-4 mb-3">Welcome to The Restaurant.</h1>
         <p class="lead mb-4 text-muted">Experience culinary excellence in the heart of the city. Our passionate chefs create unforgettable dishes using the finest local ingredients, bringing you a perfect blend of traditional flavors and modern innovation.</p>
         <div class="mt-4">
-          <RouterLink to="reservation-data" class="btn btn-danger btn-lg">Make Reservation</RouterLink>
+          <button @click="startReservation" class="btn btn-danger btn-lg">Make Reservation</button>
         </div>
       </div>
     </div>

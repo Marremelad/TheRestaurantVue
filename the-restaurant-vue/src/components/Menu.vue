@@ -1,11 +1,13 @@
 ﻿<script setup lang="ts">
-import { RouterLink } from "vue-router";
 import { type Ref, ref } from "vue";
 import type { ApiResponse, MenuItem } from "@/types/types.ts";
 import { getMenuItems } from "@/services/MenuItemService.ts";
+import ReservationModal from "@/components/ReservationModal.vue";
 
 const loading = ref(false)
 const apiResponse: Ref<ApiResponse<MenuItem[]> | null> = ref(null)
+const showReservation = ref(false)
+
 
 const fetchMenuItems = async () => {
   loading.value = true
@@ -13,10 +15,23 @@ const fetchMenuItems = async () => {
   loading.value = false;
 }
 
+const startReservation = () => {
+  showReservation.value = true
+}
+
+const closeReservation = () => {
+  showReservation.value = false
+}
+
 fetchMenuItems()
 </script>
 
 <template>
+  <ReservationModal
+      :show="showReservation"
+      @close="closeReservation"
+  />
+
   <div v-if="loading" class="text-center">
     <p>Loading menu...</p>
   </div>
@@ -59,9 +74,9 @@ fetchMenuItems()
         <div class="text-center mt-5 p-4 rounded">
           <h3 class="h4 mb-3">Ready to experience our dishes?</h3>
           <p class="text-muted mb-4">Book your table today and let us create an unforgettable dining experience for you.</p>
-          <RouterLink to="reservation-data" class="btn btn-danger btn-lg">
-            Make reservation
-          </RouterLink>
+          <div class="mt-4">
+            <button @click="startReservation" class="btn btn-danger btn-lg">Make Reservation</button>
+          </div>
         </div>
       </div>
     </div>

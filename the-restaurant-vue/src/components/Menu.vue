@@ -1,7 +1,8 @@
 ﻿<script setup lang="ts">
-import {type Ref, ref} from "vue";
-import type {ApiResponse, MenuItem} from "@/types/types.ts";
-import {getMenuItems} from "@/services/MenuItemService.ts";
+import { RouterLink } from "vue-router";
+import { type Ref, ref } from "vue";
+import type { ApiResponse, MenuItem } from "@/types/types.ts";
+import { getMenuItems } from "@/services/MenuItemService.ts";
 
 const loading = ref(false)
 const apiResponse: Ref<ApiResponse<MenuItem[]> | null> = ref(null)
@@ -27,7 +28,7 @@ fetchMenuItems()
     </div>
   </div>
 
-  <div v-else-if="apiResponse?.value.length === 0" class="col-12 text-center">
+  <div v-else-if="apiResponse?.value?.length === 0" class="col-12 text-center">
     <div class="alert alert-info" role="alert">
       <h2>Menu updating</h2>
       <p class="mb-0">Our menu is currently being updated. Contact us for current dishes and prices.</p>
@@ -58,9 +59,9 @@ fetchMenuItems()
         <div class="text-center mt-5 p-4 rounded">
           <h3 class="h4 mb-3">Ready to experience our dishes?</h3>
           <p class="text-muted mb-4">Book your table today and let us create an unforgettable dining experience for you.</p>
-          <a href="#" class="btn btn-danger btn-lg">
+          <RouterLink to="reservation-data" class="btn btn-danger btn-lg">
             Make reservation
-          </a>
+          </RouterLink>
         </div>
       </div>
     </div>

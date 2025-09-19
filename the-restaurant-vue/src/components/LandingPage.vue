@@ -10,7 +10,7 @@ import MenuItemCard from "@/components/MenuItemCard.vue";
         <h1 class="display-4 mb-3">Welcome to The Restaurant.</h1>
         <p class="lead mb-4 text-muted">Experience culinary excellence in the heart of the city. Our passionate chefs create unforgettable dishes using the finest local ingredients, bringing you a perfect blend of traditional flavors and modern innovation.</p>
         <div class="mt-4">
-          <a href="#" class="btn btn-danger btn-lg">Make Reservation</a>
+          <RouterLink to="reservation-data" class="btn btn-danger btn-lg">Make Reservation</RouterLink>
         </div>
       </div>
     </div>

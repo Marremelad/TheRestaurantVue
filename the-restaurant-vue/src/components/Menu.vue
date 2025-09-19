@@ -34,7 +34,7 @@ fetchMenuItems()
     </div>
   </div>
 
-  <div v-else class="container my-5">
+  <div v-else class="container my-5 pb-5">
     <div class="text-center mb-5">
       <h1 class="display-4 mb-3">Our Menu</h1>
       <p class="lead text-muted">Crafted with passion, served with pride</p>

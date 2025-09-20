@@ -15,7 +15,12 @@ api.interceptors.response.use(
 
         if (error.response) {
             return Promise.resolve({
-                ...error.response,
+                data: {
+                    isSuccess: false,
+                    statusCode: error.response.status,
+                    value: null,
+                    message: error.response.data?.message || `Request failed with status code ${error.response.status}`
+                }
             })
         }
 

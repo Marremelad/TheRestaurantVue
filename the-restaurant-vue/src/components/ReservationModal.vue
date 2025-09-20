@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { reactive, ref } from "vue";
+import {computed, reactive, ref} from "vue";
 import { DatePicker as VDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
 import { getAvailableTimeSlots } from '@/services/availabilityService'
@@ -30,6 +30,7 @@ const reservationState = reactive({
 const loading = ref(false)
 const availabilityResponse = ref<AvailabilityResponse[] | null>(null)
 const availabilityError = ref<string | null>(null)
+const selectedSlot = ref<AvailabilityResponse | null>(null)
 const reservationHold = ref<ReservationHold | null>(null)
 
 const cancelReservation = () => {
@@ -41,6 +42,7 @@ const cancelReservation = () => {
   loading.value = false
   availabilityResponse.value = null
   availabilityError.value = null
+  reservationHold.value = null
   emit('close')
 }
 
@@ -64,10 +66,15 @@ const setReservationHold = (ar: AvailabilityResponse) => {
     tableNumber: ar.tableNumber,
     tableCapacity: ar.tableCapacity
   }
+
+  selectedSlot.value = ar
 }
 
 const goBack = () => {
   switch (reservationState.currentStep) {
+    case 3:
+      reservationHold.value = null
+      break;
     case 2:
       availabilityResponse.value = null
       availabilityError.value = null
@@ -98,10 +105,23 @@ const checkAvailability = async () => {
   loading.value = false
 }
 
+const isSlotSelected = (slot: AvailabilityResponse) => {
+  return selectedSlot.value &&
+      selectedSlot.value.timeSlot === slot.timeSlot &&
+      selectedSlot.value.tableNumber === slot.tableNumber
+}
+
 const proceedToReservation = () => {
+  const plainReservationHold = {
+    date: reservationHold.value?.date,
+    timeSlot: reservationHold.value?.timeSlot,
+    tableNumber: reservationHold.value?.tableNumber,
+    tableCapacity: reservationHold.value?.tableCapacity
+  }
+
   router.push({
     path: '/complete-reservation',
-    state: { reservationHold: reservationHold.value }
+    state: { reservationHold: plainReservationHold }
   })
 }
 
@@ -157,7 +177,15 @@ const proceedToReservation = () => {
               <strong>{{ slot.displayableTimeSlot }}</strong><br>
               <small class="text-muted">Table {{ slot.tableNumber }} (Seats {{ slot.tableCapacity }})</small>
             </div>
-            <button @click="setReservationHold(slot)" class="btn btn-outline-danger btn-sm">Select</button>
+            <button
+                @click="setReservationHold(slot)"
+                :class="[
+                  'btn btn-sm',
+                  isSlotSelected(slot) ? 'btn-danger' : 'btn-outline-danger'
+                ]"
+            >
+              {{ isSlotSelected(slot) ? 'Selected' : 'Select' }}
+            </button>
           </div>
         </div>
       </div>
@@ -181,10 +209,7 @@ const proceedToReservation = () => {
           <button class="btn btn-outline-secondary me-2" @click="goBack">
             Back
           </button>
-          <button
-              class="btn btn-danger px-4"
-              @click="proceedToReservation"
-          >
+          <button v-if="reservationHold" class="btn btn-danger px-4" @click="proceedToReservation">
             Proceed
           </button>
         </div>

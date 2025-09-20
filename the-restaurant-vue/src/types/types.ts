@@ -18,6 +18,13 @@ export interface AvailabilityResponse {
     tableCapacity: number
 }
 
+export interface ReservationHold {
+    date: string,
+    timeSlot: number,
+    tableNumber: number,
+    tableCapacity: number
+}
+
 export interface MenuItem {
     id: number,
     name: string,

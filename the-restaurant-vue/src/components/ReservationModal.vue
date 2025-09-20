@@ -1,9 +1,14 @@
 ﻿<script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { reactive, ref } from "vue";
 import { DatePicker as VDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
 import { getAvailableTimeSlots } from '@/services/availabilityService'
 import type { AvailabilityResponse } from '@/types/types'
+import type {ReservationHold} from "@/types/types";
+import { RouterLink } from "vue-router";
+
+const router = useRouter()
 
 const props = defineProps({
   show: {
@@ -25,6 +30,7 @@ const reservationState = reactive({
 const loading = ref(false)
 const availabilityResponse = ref<AvailabilityResponse[] | null>(null)
 const availabilityError = ref<string | null>(null)
+const reservationHold = ref<ReservationHold | null>(null)
 
 const cancelReservation = () => {
   console.log(availabilityError.value)
@@ -48,6 +54,16 @@ const selectPartySize = (size: number) => {
   reservationState.currentStep = 2
   console.log('Party size selected:', size)
   console.log(reservationState.selectedDate)
+}
+
+const setReservationHold = (ar: AvailabilityResponse) => {
+  console.log(ar)
+  reservationHold.value = {
+    date: ar.date,
+    timeSlot: ar.timeSlot,
+    tableNumber: ar.tableNumber,
+    tableCapacity: ar.tableCapacity
+  }
 }
 
 const goBack = () => {
@@ -74,7 +90,7 @@ const checkAvailability = async () => {
 
   if (response.isSuccess && response.value && response.value.length > 0) {
     availabilityResponse.value = response.value
-    reservationState.currentStep = 3 // Move to availability results step
+    reservationState.currentStep = 3
   } else {
     availabilityError.value = response.message || "No time slots available for this date and party size."
   }
@@ -82,16 +98,13 @@ const checkAvailability = async () => {
   loading.value = false
 }
 
-const confirmReservation = () => {
-  const reservation = {
-    partySize: reservationState.selectedPartySize,
-    date: reservationState.selectedDate,
-    availableSlots: availabilityResponse.value
-  }
-
-  console.log('Final reservation:', reservation)
-  cancelReservation()
+const proceedToReservation = () => {
+  router.push({
+    path: '/complete-reservation',
+    state: { reservationHold: reservationHold.value }
+  })
 }
+
 </script>
 
 <template>
@@ -144,7 +157,7 @@ const confirmReservation = () => {
               <strong>{{ slot.displayableTimeSlot }}</strong><br>
               <small class="text-muted">Table {{ slot.tableNumber }} (Seats {{ slot.tableCapacity }})</small>
             </div>
-            <button class="btn btn-outline-danger btn-sm">Select</button>
+            <button @click="setReservationHold(slot)" class="btn btn-outline-danger btn-sm">Select</button>
           </div>
         </div>
       </div>
@@ -168,7 +181,10 @@ const confirmReservation = () => {
           <button class="btn btn-outline-secondary me-2" @click="goBack">
             Back
           </button>
-          <button class="btn btn-danger px-4" @click="confirmReservation">
+          <button
+              class="btn btn-danger px-4"
+              @click="proceedToReservation"
+          >
             Proceed
           </button>
         </div>

@@ -1,12 +1,10 @@
 ﻿<script setup lang="ts">
 import { useRouter } from 'vue-router'
-import {computed, reactive, ref} from "vue";
+import { reactive, ref } from "vue";
 import { DatePicker as VDatePicker } from 'v-calendar'
-import 'v-calendar/dist/style.css'
 import { getAvailableTimeSlots } from '@/services/availabilityService'
 import type { AvailabilityResponse } from '@/types/types'
-import type {ReservationHold} from "@/types/types";
-import { RouterLink } from "vue-router";
+import 'v-calendar/dist/style.css'
 
 const router = useRouter()
 
@@ -31,7 +29,7 @@ const loading = ref(false)
 const availabilityResponse = ref<AvailabilityResponse[] | null>(null)
 const availabilityError = ref<string | null>(null)
 const selectedSlot = ref<AvailabilityResponse | null>(null)
-const reservationHold = ref<ReservationHold | null>(null)
+const reservationToBeHeld = ref<AvailabilityResponse | null>(null)
 
 const cancelReservation = () => {
   console.log(availabilityError.value)
@@ -42,7 +40,7 @@ const cancelReservation = () => {
   loading.value = false
   availabilityResponse.value = null
   availabilityError.value = null
-  reservationHold.value = null
+  reservationToBeHeld.value = null
   emit('close')
 }
 
@@ -60,9 +58,10 @@ const selectPartySize = (size: number) => {
 
 const setReservationHold = (ar: AvailabilityResponse) => {
   console.log(ar)
-  reservationHold.value = {
+  reservationToBeHeld.value = {
     date: ar.date,
     timeSlot: ar.timeSlot,
+    displayableTimeSlot: ar.displayableTimeSlot,
     tableNumber: ar.tableNumber,
     tableCapacity: ar.tableCapacity
   }
@@ -73,7 +72,8 @@ const setReservationHold = (ar: AvailabilityResponse) => {
 const goBack = () => {
   switch (reservationState.currentStep) {
     case 3:
-      reservationHold.value = null
+      reservationToBeHeld.value = null
+      selectedSlot.value = null
       break;
     case 2:
       availabilityResponse.value = null
@@ -113,10 +113,17 @@ const isSlotSelected = (slot: AvailabilityResponse) => {
 
 const proceedToReservation = () => {
   const plainReservationHold = {
-    date: reservationHold.value?.date,
-    timeSlot: reservationHold.value?.timeSlot,
-    tableNumber: reservationHold.value?.tableNumber,
-    tableCapacity: reservationHold.value?.tableCapacity
+    date: reservationToBeHeld.value?.date,
+    timeSlot: reservationToBeHeld.value?.timeSlot,
+    displayableTimeSlot: reservationToBeHeld.value?.displayableTimeSlot,
+    tableNumber: reservationToBeHeld.value?.tableNumber,
+    tableCapacity: reservationToBeHeld.value?.tableCapacity
+
+    // Test reservation hold error
+    // date: "2025-09-20",
+    // timeSlot: 1,
+    // tableNumber: 6,
+    // tableCapacity: 10
   }
 
   router.push({
@@ -209,7 +216,7 @@ const proceedToReservation = () => {
           <button class="btn btn-outline-secondary me-2" @click="goBack">
             Back
           </button>
-          <button v-if="reservationHold" class="btn btn-danger px-4" @click="proceedToReservation">
+          <button v-if="reservationToBeHeld" class="btn btn-danger px-4" @click="proceedToReservation">
             Proceed
           </button>
         </div>

@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
 import {ref, defineProps, computed, type ComputedRef, type Ref} from "vue";
 import type {ApiResponse, MenuItem} from "@/types/types.ts";
-import { getMenuItems } from "@/services/MenuItemService.ts"
+import { getMenuItems } from "@/services/menuItemService.ts"
 
 const props = defineProps({
   numberOfItems: {
@@ -43,7 +43,7 @@ fetchMenuItems()
     <p>Something went wrong</p>
   </div>
 
-  <div v-else-if="filteredMenuItems.length === 0" class="col-12 text-center">
+  <div v-else-if="filteredMenuItems?.length === 0" class="col-12 text-center">
     <p>No menu items available</p>
   </div>
 

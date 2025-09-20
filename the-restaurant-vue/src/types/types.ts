@@ -5,6 +5,17 @@
     message: string
 }
 
+export type Unit = void
+
+export interface MenuItem {
+    id: number,
+    name: string,
+    price: number,
+    description: string,
+    image: string,
+    isPopular: boolean
+}
+
 export interface AvailabilityRequest {
     partySize: number,
     date: string
@@ -25,11 +36,13 @@ export interface ReservationHold {
     tableCapacity: number
 }
 
-export interface MenuItem {
-    id: number,
-    name: string,
-    price: number,
-    description: string,
-    image: string,
-    isPopular: boolean
+export interface PersonalInfo {
+    firstName: string,
+    lastName: string,
+    email: string
+}
+
+export interface ReservationCreate {
+    reservationHoldId: number,
+    personalInfo: PersonalInfo
 }

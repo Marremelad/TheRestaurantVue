@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
 import { type Ref, ref } from "vue";
 import type { ApiResponse, MenuItem } from "@/types/types.ts";
-import { getMenuItems } from "@/services/MenuItemService.ts";
+import { getMenuItems } from "@/services/menuItemService.ts";
 import ReservationModal from "@/components/ReservationModal.vue";
 
 const loading = ref(false)

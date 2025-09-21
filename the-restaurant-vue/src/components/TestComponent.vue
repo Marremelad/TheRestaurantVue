@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import { DatePicker as VDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
 
@@ -38,7 +38,6 @@ const handleFinalSubmit = () => {
 <template>
   <div class="d-flex justify-content-center align-items-center min-vh-100">
     <div class="card shadow">
-      <!-- Party Size Selection Step -->
       <div v-if="state.currentStep === 1" class="card-body text-center">
         <h4 class="card-title mb-4">Select party size</h4>
         <div>
@@ -53,7 +52,6 @@ const handleFinalSubmit = () => {
         </div>
       </div>
 
-      <!-- Date Selection Step -->
       <div v-else-if="state.currentStep === 2" class="card-body text-center">
         <h5 class="card-title">Select Date</h5>
         <p class="text-muted mb-3">Party size: {{ state.selectedPartySize }} people</p>
@@ -65,7 +63,6 @@ const handleFinalSubmit = () => {
         />
       </div>
 
-      <!-- Footer with navigation buttons -->
       <div v-if="state.currentStep === 2" class="card-footer text-center border-0 bg-white">
         <button class="btn btn-outline-secondary me-2" @click="goBack">
           Back

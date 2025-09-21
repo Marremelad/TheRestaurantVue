@@ -44,11 +44,6 @@ const completeReservation = async () => {
 
   reservationCreateResponse.value = await createReservation(data)
 
-  // Add debugging
-  console.log('Reservation response:', reservationCreateResponse.value)
-  console.log('isSuccess:', reservationCreateResponse.value?.isSuccess)
-  console.log('message:', reservationCreateResponse.value?.message)
-
   submitting.value = false
 }
 </script>

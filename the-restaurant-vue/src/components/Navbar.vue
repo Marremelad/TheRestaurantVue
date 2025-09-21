@@ -10,6 +10,7 @@ import { RouterLink } from 'vue-router';
 
         <div class="d-sm-none w-100 mt-2">
           <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <RouterLink to="/" class="btn btn-outline-dark btn-sm">Home</RouterLink>
             <RouterLink to="/menu" class="btn btn-outline-dark btn-sm">Menu</RouterLink>
           </div>
         </div>

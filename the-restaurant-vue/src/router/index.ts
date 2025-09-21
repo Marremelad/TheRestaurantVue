@@ -2,6 +2,7 @@
 import HomeView from '../views/HomeView.vue'
 import MenuView from "@/views/MenuView.vue";
 import CompleteReservationView from '@/views/CompleteReservationView.vue';
+import NotFoundView from "@/views/NotFoundView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,11 @@ const router = createRouter({
             path: "/complete-reservation",
             name: "complete-reservation",
             component: CompleteReservationView
+        },
+        {
+            path: "/:catchAll(.*)",
+            name: "not-found",
+            component: NotFoundView
         }
     ],
 })
